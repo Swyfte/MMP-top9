@@ -3,7 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 ## Import the jpg files
-mypath = "E:/MMP files/"
+mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
 from os import listdir
 from os.path import isfile, join
@@ -20,11 +20,11 @@ for f in onlyfiles:
 	Size = thresh.size
 	print()
 	print(filename)
-	print("size " + str(Size))
+	#print("size " + str(Size))
 	whiteCount = cv2.countNonZero(thresh)
-	print("w/c " + str(whiteCount))
+	#print("w/c " + str(whiteCount))
 	blackCount = Size - whiteCount
-	print("b/c " + str(blackCount))
+	#print("b/c " + str(blackCount))
 	if float(whiteCount)/Size > 0.5:
 		print("Light, " + str(round((float(whiteCount)/Size)*100, 2)) + "% white")
 	else:

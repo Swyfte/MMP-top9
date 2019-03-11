@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-mypath = "E:/MMP files/"
+mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
 from os import listdir
 from os.path import isfile, join
@@ -20,4 +20,10 @@ for f in onlyfiles:
 	mirror = cv2.flip(leftSide, 1)
 	cv2.imshow("flipped", mirror)
 	cv2.waitKey(0)
-	
+	rightSide = img[:, half:]
+	cv2.imshow("right", rightSide)
+	cv2.waitKey(0)
+
+	comparedor = cv2.bitwise_or(mirror, rightSide)
+	cv2.imshow("compared", comparedor)
+	cv2.waitKey(0)
