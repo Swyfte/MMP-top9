@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 
-mypath = "E:/MMP files/"
+mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
 from os import listdir
 from os.path import isfile, join
@@ -24,11 +24,13 @@ for f in onlyfiles:
 	for (lower, upper) in channels:
 		lower = np.array(lower, dtype = "uint8")
 		upper = np.array(upper, dtype = "uint8")
-
+		# Mask the image, filtering each of the colour channels.
 		mask = cv2.inRange(img, lower, upper)
-		output = cv2.bitwise_and(img, img, mask = mask)
-		imS = cv2.resize(img, (960, 540))
-		outputS = cv2.resize(output, (960, 540))
-		# show the images
-		cv2.imshow("images", np.hstack([imS, outputS]))
+		masked = cv2.bitwise_and(img, img, mask = mask)
+
+
+		# Show the images, resized smaller
+		imgSmall = cv2.resize(img, (960, 540))
+		maskedSmall = cv2.resize(masked, (960, 540))
+		cv2.imshow("images", np.hstack([imgSmall, maskedSmall]))
 		cv2.waitKey(0)
