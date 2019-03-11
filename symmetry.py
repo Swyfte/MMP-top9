@@ -24,6 +24,6 @@ for f in onlyfiles:
 	cv2.imshow("right", rightSide)
 	cv2.waitKey(0)
 
-	comparedor = cv2.bitwise_or(mirror, rightSide)
-	cv2.imshow("compared", comparedor)
+	compared = cv2.bitwise_or(mirror, rightSide)
+	cv2.imshow("compared", compared)
 	cv2.waitKey(0)
