@@ -14,16 +14,17 @@ for f in onlyfiles:
 	img = cv2.imread(filename) 
 	height, width, colour = img.shape
 	half = int(width/2)
-	leftSide = img[:, :half]
+	grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	leftSide = grey[:, :half]
 	cv2.imshow("cropped", leftSide)
 	cv2.waitKey(0)
 	mirror = cv2.flip(leftSide, 1)
 	cv2.imshow("flipped", mirror)
 	cv2.waitKey(0)
-	rightSide = img[:, half:]
+	rightSide = grey[:, half:]
 	cv2.imshow("right", rightSide)
 	cv2.waitKey(0)
 
-	compared = cv2.bitwise_or(mirror, rightSide)
+	compared = cv2.bitwise_and(mirror, rightSide)
 	cv2.imshow("compared", compared)
 	cv2.waitKey(0)
