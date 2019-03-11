@@ -8,6 +8,12 @@ from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
 
+channels = [
+	([000,000,127],[127,127,255]),
+	([000,127,000],[127,255,127]),
+	([127,000,000],[255,127,127])
+]
+
 ## Loop through and find each colour channel, masking it and counting
 for f in onlyfiles:
 	filename = f
@@ -15,23 +21,22 @@ for f in onlyfiles:
 	height, width, colour = img.shape
 	Size = height*width
 	redCount, blueCount, greenCount = 0,0,0
+	for (lower, upper) in channels:
+		lower = np.array(lower, dtype = "uint8")
+		upper = np.array(upper, dtype = "uint8")
+		# Mask the image, filtering each of the colour channels.
+		mask = cv2.inRange(img, lower, upper)
+		masked = cv2.bitwise_and(img, img, mask = mask)
 
-	b,g,r = cv2.split(img)
 
-	redCount = cv2.countNonZero(r)
-	greenCount = cv2.countNonZero(g)
-	blueCount = cv2.countNonZero(b)
-
-	# Show the images, resized smaller
-	imgSmall = cv2.resize(img, (480, 270))
-	rSmall = cv2.resize(r, (480, 270))
-	gSmall = cv2.resize(g, (480, 270))
-	bSmall = cv2.resize(b, (480, 270))
-	cv2.imshow("images", np.vstack([rSmall, gSmall, bSmall]))
-
-	print(filename)
-	print("r" + str(redCount) + " g" + str(greenCount) + " b" + str(blueCount))
-
+<<<<<<< HEAD
 	reMake = cv2.merge((bSmall,gSmall,rSmall))
 	cv2.imshow("Remade", reMake)
 	cv2.waitKey(0)
+=======
+		# Show the images, resized smaller
+		imgSmall = cv2.resize(img, (960, 540))
+		maskedSmall = cv2.resize(masked, (960, 540))
+		cv2.imshow("images", np.hstack([imgSmall, maskedSmall]))
+		cv2.waitKey(0)
+>>>>>>> parent of ef434c1... colourBalance update
