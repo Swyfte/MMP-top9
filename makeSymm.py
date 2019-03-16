@@ -20,31 +20,34 @@ for f in onlyfiles:
 	#dim = (int(half * 50/100), int(height * 50/100))
 
 	leftSide = img[:, :half, :]
-	dblLeft = np.zeros((height,width,colour), np.uint8)
-	dblRght = np.zeros((height,width,colour), np.uint8)
-	dblLeft[:, variance:half, :] = leftSide[:,:-variance,:]
+	bigdblLeft = np.zeros((height,width,colour), np.uint8)
+	bigdblRght = np.zeros((height,width,colour), np.uint8)
+
+	bigdblLeft[:, variance:half+variance, :] = leftSide
 	mirror = cv2.flip(leftSide, 1)
-	dblLeft[:, half:-variance, :] = mirror[:,variance:,:]
+	bigdblLeft[:, half+variance:, :] = mirror[:,variance:,:]
+	dblLeft = bigdblLeft[:, variance:,:]
 	#LftSml = cv2.resize(dblLeft, dim)
 	#cv2.imshow("flipped", LftSml)
-	cv2.imshow("flipped", dblLeft)
-	cv2.waitKey(0)
+	#cv2.imshow("flipped", dblLeft)
+	#cv2.waitKey(0)
 
 	## Crop the left off the image to get just the right hand side
 	rightSide = img[:, half:, :]
-	dblRght[:, half+variance:, :] = rightSide[:,variance:,:]
+	bigdblRght[:, half+variance:, :] = rightSide[:,variance:,:]
 	mirror2 = cv2.flip(rightSide, 1)
-	dblRght[:, (2*variance):half+variance, :] = mirror2[:,:-variance,:]
+	bigdblRght[:, variance:half+variance, :] = mirror2
+	dblRght = bigdblRght[:, variance:,:]
 	#rgtSml = cv2.resize(dblRght, dim)
 	#cv2.imshow("right", rgtSml)
-	cv2.imshow("right", dblRght)
-	cv2.waitKey(0)
+	#cv2.imshow("right", dblRght)
+	#cv2.waitKey(0)
 
-	"""filename = "left_" + filename
+	filenameL = "left_" + str(variance) + "_" + filename
 	## save the image out to the new filename
-	saveLoc = join(mypath, filename)
+	saveLoc = join(mypath, filenameL)
 	cv2.imwrite(saveLoc, dblLeft)
-	filename = "rght_" + filename
+	filenameR = "rght_"+ str(variance) + "_" + filename
 	## save the image out to the new filename
-	saveLoc = join(mypath, filename)
-	cv2.imwrite(saveLoc, dblRght)"""
+	saveLoc = join(mypath, filenameR)
+	cv2.imwrite(saveLoc, dblRght)
