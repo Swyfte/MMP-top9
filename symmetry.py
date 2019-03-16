@@ -19,7 +19,7 @@ for f in onlyfiles:
 	## Find the midpoint
 	half = int(width/2)
 	## Create a scale factor, if using reduced image size
-	#dim = (int(half * 50/100), int(height * 50/100))
+	dim = (int(half * 25/100), int(height * 25/100))
 	## Convert the image to greyscale, needed for the final comparisons
 	blur = cv2.bilateralFilter(img,20,150,150)
 	grey = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
@@ -28,29 +28,29 @@ for f in onlyfiles:
 	leftSide = grey[:, :half]
 	#lftSml = cv2.resize(leftSide, dim)
 	#cv2.imshow("cropped", lftSml)
-	cv2.imshow("cropped", leftSide)
-	cv2.waitKey(0)
+	#cv2.imshow("cropped", leftSide)
+	#cv2.waitKey(0)
 	
 	## Flip the cropped off left hand side of the image 
 	mirror = cv2.flip(leftSide, 1)
 	#mirSml = cv2.resize(mirror, dim)
 	#cv2.imshow("flipped", mirSml)
-	cv2.imshow("flipped", mirror)
-	cv2.waitKey(0)
+	#cv2.imshow("flipped", mirror)
+	#cv2.waitKey(0)
 
 	## Crop the left off the image to get just the right hand side
 	rightSide = grey[:, half:]
 	#rgtSml = cv2.resize(rightSide, dim)
 	#cv2.imshow("right", rgtSml)
-	cv2.imshow("right", rightSide)
-	cv2.waitKey(0)
+	#cv2.imshow("right", rightSide)
+	#cv2.waitKey(0)
 
 	## Work out the SSIM of the image.
 	# The "compared" image exists only for helping the user visualise the process of SSIM
 	# and for displaying the differences between the two halves of the image.
 	compared = cv2.bitwise_and(mirror, rightSide)
 	sim = ssim(mirror, rightSide)
-	#cpdSml = cv2.resize(compared, dim)
-	#cv2.imshow("SSIM: " + str(sim), cpdSml)
-	cv2.imshow("SSIM: " + str(sim), compared)
+	cpdSml = cv2.resize(compared, dim)
+	cv2.imshow(filename + "SSIM: " + str(sim), cpdSml)
+	#cv2.imshow("SSIM: " + str(sim), compared)
 	cv2.waitKey(0)
