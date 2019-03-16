@@ -21,7 +21,8 @@ for f in onlyfiles:
 	## Create a scale factor, if using reduced image size
 	#dim = (int(half * 50/100), int(height * 50/100))
 	## Convert the image to greyscale, needed for the final comparisons
-	grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+	blur = cv2.bilateralFilter(img,20,150,150)
+	grey = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
 
 	## Crop the right off of the image to get just the left hand side
 	leftSide = grey[:, :half]

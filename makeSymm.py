@@ -9,13 +9,14 @@ from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
 
+variance = int(input("Enter Variance: "))
+
 ## Loop through and find half of each image, flip it, then compare the two halves
 # All "imshow" instances are for demonstating this module
 for f in onlyfiles:
 	filename = f
 	img = cv2.imread(filename)
 	height, width, colour = img.shape
-	variance = 20
 	half = int(width/2)
 	#dim = (int(half * 50/100), int(height * 50/100))
 
