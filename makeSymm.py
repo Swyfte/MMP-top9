@@ -26,7 +26,7 @@ for f in onlyfiles:
 
 	bigdblLeft[:, variance:half+variance, :] = leftSide
 	mirror = cv2.flip(leftSide, 1)
-	bigdblLeft[:, half+variance:, :] = mirror[:,variance:,:]
+	bigdblLeft[:, half+variance:, :] = mirror[:,:-variance,:]
 	dblLeft = bigdblLeft[:, variance:,:]
 	#LftSml = cv2.resize(dblLeft, dim)
 	#cv2.imshow("flipped", LftSml)
@@ -35,7 +35,7 @@ for f in onlyfiles:
 
 	## Crop the left off the image to get just the right hand side
 	rightSide = img[:, half:, :]
-	bigdblRght[:, half+variance:, :] = rightSide[:,variance:,:]
+	bigdblRght[:, half+variance:, :] = rightSide[:,:-variance,:]
 	mirror2 = cv2.flip(rightSide, 1)
 	bigdblRght[:, variance:half+variance, :] = mirror2
 	dblRght = bigdblRght[:, variance:,:]
