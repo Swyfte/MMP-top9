@@ -26,24 +26,27 @@ for f in onlyfiles:
 
 	## Crop the right off of the image to get just the left hand side
 	leftSide = grey[:, :half]
-	#lftSml = cv2.resize(leftSide, dim)
-	#cv2.imshow("cropped", lftSml)
+	lftSml = cv2.resize(leftSide, dim)
+	cv2.imshow("cropped", lftSml)
 	#cv2.imshow("cropped", leftSide)
-	#cv2.waitKey(0)
+	cv2.waitKey(0)
 	
 	## Flip the cropped off left hand side of the image 
 	mirror = cv2.flip(leftSide, 1)
-	#mirSml = cv2.resize(mirror, dim)
-	#cv2.imshow("flipped", mirSml)
+	mirSml = cv2.resize(mirror, dim)
+	cv2.imshow("flipped", mirSml)
 	#cv2.imshow("flipped", mirror)
-	#cv2.waitKey(0)
+	cv2.waitKey(0)
 
 	## Crop the left off the image to get just the right hand side
-	rightSide = grey[:, half:]
-	#rgtSml = cv2.resize(rightSide, dim)
-	#cv2.imshow("right", rgtSml)
+	if width%2==0:
+		rightSide = grey[:, half:]
+	else:
+		rightSide = grey[:, half+1:]
+	rgtSml = cv2.resize(rightSide, dim)
+	cv2.imshow("right", rgtSml)
 	#cv2.imshow("right", rightSide)
-	#cv2.waitKey(0)
+	cv2.waitKey(0)
 
 	## Work out the SSIM of the image.
 	# The "compared" image exists only for helping the user visualise the process of SSIM
