@@ -1,9 +1,12 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+from Sub-modules.greyscale import *
+
+
 
 ## Import the jpg files
-mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
+mypath = "D:\Tom\Documents\GitHub\MMP-top9"
 filename = ""
 from os import listdir
 from os.path import isfile, join
@@ -12,8 +15,8 @@ onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" 
 ## Loop through and make each image greyscale, then thresholded, then count the white
 for f in onlyfiles:
 	filename = f
-	img = cv2.imread(filename) 
-	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #convert it to grey 
+	img = cv2.imread(filename)
+
 	ret,thresh = cv2.threshold(gray,127,255,cv2.THRESH_BINARY) #threshold that lad
 	#The following chunk calculates the white balance
 	height, width, colour = img.shape
