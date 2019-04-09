@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 from skimage.measure import compare_ssim as ssim
+import Submodules as sb
 
 mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
@@ -21,8 +22,8 @@ for f in onlyfiles:
 	## Create a scale factor, if using reduced image size
 	dim = (int(half * 25/100), int(height * 25/100))
 	## Convert the image to greyscale, needed for the final comparisons
-	blur = cv2.bilateralFilter(img,20,150,150)
-	grey = cv2.cvtColor(blur, cv2.COLOR_BGR2GRAY)
+	blur = cv2.GaussianBlur(img, (5,5),0)
+	grey = sb.grey(blur)
 
 	## Crop the right off of the image to get just the left hand side
 	leftSide = grey[:, :half]
