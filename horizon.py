@@ -26,7 +26,7 @@ for f in onlyfiles:
 	blur = cv2.GaussianBlur(img,(5,5),0)
 	new_img = np.zeros(img.shape, img.dtype)
 	new_img = cv2.convertScaleAbs(blur,alpha=2.0,beta=0)
-	edges = cv2.Canny(cropped,200,250)
+	edges = cv2.Canny(new_img,200,250)
 	#lines = cv2.HoughLinesP(edges,2,np.pi/2,200, None, int(width/4), 100)
 	lines = cv2.HoughLines(edges, 2, np.pi/2, 200, 100, 200)
 	imgSML = cv2.resize(img, dim)
