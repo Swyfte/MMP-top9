@@ -3,5 +3,9 @@ from Submodules.brightContrast import bright
 from Submodules.brightContrast import contrast
 from Submodules.greyscale import grey
 from Submodules.greyscale import greySave
+from Submodules.splitColours import colours
+from Submodules.splitColours import remerge
+from Submodules.splitColours import split
 from Submodules.threshold import thresh
+from Submodules.threshold import threshSave
 from Submodules.whiteCount import whiteCount
