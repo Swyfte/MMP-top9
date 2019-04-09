@@ -1,13 +1,12 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-from Sub-modules.greyscale import *
-
-
+import Sub-modules
 
 ## Import the jpg files
-mypath = "D:\Tom\Documents\GitHub\MMP-top9"
+mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
+
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f) and ("gray_" not in f))]
