@@ -22,7 +22,7 @@ for f in onlyfiles:
 	## Create a scale factor, if using reduced image size
 	dim = (int(half * 25/100), int(height * 25/100))
 	## Convert the image to greyscale, needed for the final comparisons
-	blur = cv2.GaussianBlur(img, (5,5),0)
+	blur = cv2.GaussianBlur(img, (7,7),0)
 	grey = sb.grey(blur)
 
 	## Crop the right off of the image to get just the left hand side
