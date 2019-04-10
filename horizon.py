@@ -23,7 +23,7 @@ for f in onlyfiles:
 	dim = (int(width * percent/100), int(height * percent/100))
 	#grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	#sharp = cv2.filter2D(grey, -1, kernel_sharpening)
-	blur = cv2.GaussianBlur(img,(5,5),0)
+	blur = cv2.GaussianBlur(img,(13,13),0)
 	new_img = np.zeros(img.shape, img.dtype)
 	new_img = cv2.convertScaleAbs(blur,alpha=2.0,beta=0)
 	edges = cv2.Canny(new_img,200,250)
