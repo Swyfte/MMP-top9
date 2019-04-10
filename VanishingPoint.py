@@ -16,3 +16,30 @@ for f in onlyfiles:
 	height, width, colour = img.shape
 	percent = 75
 	dim = (int(width * percent/100), int(height * percent/100))
+
+	blur = cv2.GaussianBlur(img,(5,5),0)
+	new_img = np.zeros(img.shape, img.dtype)
+	new_img = cv2.convertScaleAbs(blur,alpha=2.0,beta=0)
+	edges = cv2.Canny(new_img,200,250)
+	lines = cv2.HoughLines(edges, 2, np.pi/180, 200, 100, 200)
+	imgSML = cv2.resize(img, dim)
+	edgesSML = cv2.resize(edges, dim)
+	cv2.imshow("edges",edgesSML)
+	cv2.imshow("img", imgSML)
+
+	for line in lines:
+		for rho,theta in line:
+			a = np.cos(theta)
+			b = np.sin(theta)
+			x0 = a*rho
+			y0 = b*rho
+			x1 = int(x0 + 1000*(-b))
+			y1 = int(y0 + 1000*(a))
+			x2 = int(x0 - 1000*(-b))
+			y2 = int(y0 - 1000*(a))
+			if (x1 != x2):
+				cv2.line(edges,(x1,y1),(x2,y2),(255,255,0),2)
+	edgeshowSML = cv2.resize(edges, dim)
+	cv2.imshow("Detected Lines (in red) - Standard Hough Line Transform", edgeshowSML)
+	
+	cv2.waitKey(0)
