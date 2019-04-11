@@ -37,8 +37,7 @@ for f in onlyfiles:
 			y1 = int(y0 + 5000*(a))
 			x2 = int(x0 - 5000*(-b))
 			y2 = int(y0 - 5000*(a))
-			if (x1 != x2):
-				cv2.line(img,(x1,y1),(x2,y2),(255,255,0),2)
+			cv2.line(img,(x1,y1),(x2,y2),(255,255,0),2)
 	edgeshowSML = cv2.resize(img, dim)
 	cv2.imshow("Detected Lines (in red) - Standard Hough Line Transform", edgeshowSML)
 	cv2.waitKey(0)
