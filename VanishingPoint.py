@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
+import random
 import math
 import Submodules as sb
 
@@ -17,11 +18,20 @@ for f in onlyfiles:
 	percent = 25
 	dim = (int(width * percent/100), int(height * percent/100))
 	kernel = np.ones((15,15), np.uint8)
+	size = 100
 
 	blur = cv2.GaussianBlur(img,(5,5),0)
 	opening = cv2.morphologyEx(blur, cv2.MORPH_OPEN, kernel)
 	edges = cv2.Canny(opening,50,150,apertureSize = 3)
 	lines = cv2.HoughLines(edges, 1, np.pi/180, 200)
+	
+	if lines:
+		if len(lines) > size:
+			size = len(lines)
+		sampleLines = random.sample(lines, size)
+
+	
+
 	imgSML = cv2.resize(img, dim)
 	edgesSML = cv2.resize(edges, dim)
 	cv2.imshow("edges",edgesSML)
