@@ -7,6 +7,7 @@ from Submodules.splitColours import colours
 from Submodules.splitColours import remerge
 from Submodules.splitColours import split
 from Submodules.threshold import thresh
+from Submodules.threshold import threshTest
 from Submodules.threshold import threshSave
 from Submodules.whiteCount import whiteCount
-from Submodules.whiteCount import whiteCountTesting
+from Submodules.whiteCount import whiteCountTest

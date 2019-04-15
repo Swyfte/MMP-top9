@@ -7,7 +7,7 @@ def whiteCount(img):
 	value = (float(whiteCount)/Size)*100
 	return value
 
-def whiteCountTesting(img, filename):
+def whiteCountTest(img, filename):
 	blackCount = 0
 	whiteCount = 0
 	height, width = img.shape
@@ -25,3 +25,4 @@ def whiteCountTesting(img, filename):
 	else:
 		print("black, " + str(round(value, 2)) + "% white")
 	print("height and width :", height, width)
+	return value

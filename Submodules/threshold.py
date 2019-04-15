@@ -9,5 +9,10 @@ def threshSave(img, mypath, filename):
 	saveLoc = join(mypath, filename)
 	cv2.imwrite(saveLoc, thresh)
 
+def threshTest(img):
+	ret, thresh = cv2.threshold(img,127,255,cv2.THRESH_BINARY)
+	cv2.imshow(thresh)
+	return thresh
+
 def thresh(img):
 	return cv2.threshold(img,127,255,cv2.THRESH_BINARY)
