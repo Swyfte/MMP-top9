@@ -33,16 +33,20 @@ for f in onlyfiles:
 
 	## Crop the right off of the image to get just the left hand side
 	leftSide = grey[:, :half]
-	lftSml = cv2.resize(leftSide, dim)
-	cv2.imshow("cropped", lftSml)
-	#cv2.imshow("cropped", leftSide)
+	if scaling:
+		lftSml = cv2.resize(leftSide, dim)
+		cv2.imshow("cropped", lftSml)
+	else:
+		cv2.imshow("cropped", leftSide)
 	cv2.waitKey(0)
 	
 	## Flip the cropped off left hand side of the image 
 	mirror = cv2.flip(leftSide, 1)
-	mirSml = cv2.resize(mirror, dim)
-	cv2.imshow("flipped", mirSml)
-	#cv2.imshow("flipped", mirror)
+	if scaling:
+		mirSml = cv2.resize(mirror, dim)
+		cv2.imshow("flipped", mirSml)
+	else:
+		cv2.imshow("flipped", mirror)
 	cv2.waitKey(0)
 
 	## Crop the left off the image to get just the right hand side
@@ -50,9 +54,11 @@ for f in onlyfiles:
 		rightSide = grey[:, half:]
 	else:
 		rightSide = grey[:, half+1:]
-	rgtSml = cv2.resize(rightSide, dim)
-	cv2.imshow("right", rgtSml)
-	#cv2.imshow("right", rightSide)
+	if scaling:
+		rgtSml = cv2.resize(rightSide, dim)
+		cv2.imshow("right", rgtSml)
+	else:
+		cv2.imshow("right", rightSide)
 	cv2.waitKey(0)
 
 	## Work out the SSIM of the image.
@@ -60,7 +66,9 @@ for f in onlyfiles:
 	# and for displaying the differences between the two halves of the image.
 	compared = cv2.bitwise_and(mirror, rightSide)
 	sim = ssim(mirror, rightSide)
-	cpdSml = cv2.resize(compared, dim)
-	cv2.imshow(filename + "SSIM: " + str(sim), cpdSml)
-	#cv2.imshow("SSIM: " + str(sim), compared)
+	if scaling:
+		cpdSml = cv2.resize(compared, dim)
+		cv2.imshow(filename + "SSIM: " + str(sim), cpdSml)
+	else:
+		cv2.imshow("SSIM: " + str(sim), compared)
 	cv2.waitKey(0)
