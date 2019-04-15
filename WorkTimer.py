@@ -1,10 +1,9 @@
 import time
 import winsound
 
-def MinTimer(mins):
-	t = mins * 60
-	secs = 0
+def MinTimer(t):
 	while t:
+		mins, secs = divmod(t, 60)
 		timeformat = '{:02d}:{:02d}'.format(mins, secs)
 		print(timeformat, end='\r')
 		time.sleep(1)
@@ -13,8 +12,8 @@ def MinTimer(mins):
 	freq = 440  # Hz
 	winsound.Beep(freq, duration)
 
-Work = 52
-Rest = 17
+Work = 52*60
+Rest = 17*60
 cancel = False
 
 while not cancel:
