@@ -1,13 +1,9 @@
 import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+from os.path import join
 
-def whiteCount(img):
-	whiteCount = 0
-	Size = img.size
-	whiteCount = cv2.countNonZero(img)
-	return (float(whiteCount)/Size)*100
-
-
-def whiteCountTesting(img, filename):
+def whiteCount(img, filename):
 	blackCount = 0
 	whiteCount = 0
 	height, width = img.shape
