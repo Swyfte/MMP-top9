@@ -58,3 +58,7 @@ import Submodules as sb
 		cv2.imshow(filename + " SSIM: " + str(sim), cpdSml)
 		#cv2.imshow(filename + " SSIM: " + str(sim), compared)
 		cv2.waitKey(0)
+		if sim > 0.75:
+			return True
+		else:
+			return False
