@@ -17,10 +17,16 @@ for f in onlyfiles:
 	img = cv2.imread(filename)
 	## Find the dimensions of the input image
 	height, width, colour = img.shape
+	if width > 1000 or height > 1000:
+		scaling = True
+		if width > height:
+			scaleBy = 1000/width
+		else:
+			scaleBy = 1000/height
 	## Find the midpoint
 	half = int(width/2)
 	## Create a scale factor, if using reduced image size
-	dim = (int(half * 25/100), int(height * 25/100))
+	dim = (int(half * scaleBy), int(height * scaleBy))
 	## Convert the image to greyscale, needed for the final comparisons
 	blur = cv2.GaussianBlur(img, (7,7),0)
 	grey = sb.grey(blur)
