@@ -1,6 +1,4 @@
 import cv2
-import numpy as np
-from matplotlib import pyplot as plt
 from os.path import join
 
 def threshSave(img, mypath, filename):
