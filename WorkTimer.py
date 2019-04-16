@@ -15,6 +15,7 @@ def MinTimer(t):
 Work = 52*60
 Rest = 17*60
 cancel = False
+hourcounter = 0
 
 while not cancel:
 	choice = input("[W]ork, [B]reak, [C]ancel: ")
@@ -22,8 +23,10 @@ while not cancel:
 	if choice == "w":
 		MinTimer(Work)
 		choice = ""
+		hourcounter += 1
 	elif choice == "b":
 		MinTimer(Rest)
 		choice = ""
 	elif choice == "c":
 		cancel = True
+		print("You worked " + str(hourcounter) + " hours")
