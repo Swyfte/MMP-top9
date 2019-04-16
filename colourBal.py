@@ -8,6 +8,10 @@ from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
 
+Colours = [
+	[0, 0, 0], [13,100,100] #Red 1
+]
+
 for f in onlyfiles:
 	filename = f
 	img = cv2.imread(filename) 
