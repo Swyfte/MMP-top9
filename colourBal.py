@@ -8,13 +8,6 @@ from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
 
-channels = [
-	([000,000,127],[127,140,255]), #Red
-	([000,127,000],[127,255,160]), #Grn
-	([127,000,000],[255,127,127])  #Blu
-]
-
-## Loop through and find each colour channel, masking it and counting
 for f in onlyfiles:
 	filename = f
 	img = cv2.imread(filename) 
@@ -22,4 +15,10 @@ for f in onlyfiles:
 	Size = height*width
 	hsvImg = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 	
-	
+	hueImg = img[:,:,0]
+	satImg = img[:,:,1]
+	valImg = img[:,:,2]
+	cv2.imshow("Hue", hueImg)
+	cv2.imshow("Saturation", satImg)
+	cv2.imshow("Value", valImg)
+	cv2.waitKey(0)
