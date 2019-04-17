@@ -7,7 +7,6 @@ def csvWriteRow(filename, data):
 
 def csvReadRow(filename, row):
 	with open((filename + ".csv")) as csv_file:
-		csv_reader = csv.reader(csv_file, delimiter=',')
 		data = list(csv.reader(csv_file, delimiter=','))
 		data = list(filter(None, data))
 		if row > len(data):
