@@ -24,6 +24,10 @@ def blurTest(img, filename):
 	imgSml = cv2.resize(img, dim)
 	cv2.imshow(filename, imgSml)
 	cv2.waitKey(0)
+	if blurriness < threshold:
+		return False
+	else:
+		return True
 
 def blur(img):
 	grey = sb.grey(img)
