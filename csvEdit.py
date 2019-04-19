@@ -1,28 +1,26 @@
 import csv
 
 def csvWriteRow(filename, data):
-	with open((filename + ".csv"), mode="w") as csv_file:
+	with open((filename + ".csv"), mode="a", newline="") as csv_file:
 		writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
 		writer.writerow(data)
+
+def csvWrite(filename, data):
+	with open((filename + ".csv"), mode="w", newline="") as csv_file:
+		writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+		writer.writerows(data)
 
 def csvReadRow(filename, row):
 	with open((filename + ".csv")) as csv_file:
 		data = list(csv.reader(csv_file, delimiter=','))
-		data = list(filter(None, data))
 		if row > len(data):
 			return ["No data, out of range"]
 		else:
 			return data[row]
 
-def csvWrite(filename, data):
-	with open((filename + ".csv"), mode="w") as csv_file:
-		writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
-		writer.writerows(data)
-
 def csvRead(filename):
 	with open((filename + ".csv")) as csv_file:
 		data = list(csv.reader(csv_file, delimiter=','))
-		data = list(filter(None, data))
 		return data
 
 testData1 = [
@@ -45,19 +43,19 @@ testData2 = [
 	[767,"Word6"],
 ]
 
-print("Test writing")
+"""print("Test writing")
 csvWrite("Test1",testData1)
 csvWrite("Test2",testData2)
 
 print("Test writing one row to a csv")
 csvWriteRow("Test3",testData1[3])
-csvWriteRow("Test4", testData2[6])
+csvWriteRow("Test3", testData2[6])
 
 print("Test reading table")
 print(csvRead("Test1"))
 print("Test reading one line table")
-print(csvRead("Test4"))
+print(csvRead("Test3"))
 print("Test reading one row")
 print(csvReadRow("Test1",3))
 print("Test out of limits row")
-print(csvReadRow("Test2",10))
+print(csvReadRow("Test2",10))"""
