@@ -1,6 +1,6 @@
 import cv2
 import Submodules as sb
-
+import csvEdit
 
 ## Import the jpg files
 mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
@@ -9,6 +9,9 @@ filename = ""
 from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
+
+csvName = "blurryTest"
+csvEdit.csvWriteRow(csvName, ["Filename","Blurry?","Blurriness Val"])
 
 for f in onlyfiles:
 	filename = f
@@ -29,9 +32,12 @@ for f in onlyfiles:
 	if blurriness < threshold:
 		text = "Blurry"
 
-	# show the image
+	"""# show the image
 	cv2.putText(img, "{}: {:.2f}".format(text, blurriness), (10, 60),
 		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
 	imgSml = cv2.resize(img, dim)
 	cv2.imshow(filename, imgSml)
-	cv2.waitKey(0)
+	cv2.waitKey(0)"""
+
+	row = [filename, text, blurriness]
+	csvEdit.csvWriteRow(csvName, row)
