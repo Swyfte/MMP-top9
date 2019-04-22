@@ -32,4 +32,9 @@ for f in onlyfiles:
 			if bckg[y,x] != 0:
 				contrast += (img[y,x,0]-bckg[y,x])/bckg[y,x]
 
-	contrast
+	contrast /= (height*width)
+	cv2.putText(img, "{:.2f}".format(contrast), (10, 60),
+		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+	imgSml = cv2.resize(img, dim)
+	cv2.imshow(filename, imgSml)
+	cv2.waitKey(0)
