@@ -3,6 +3,7 @@ import numpy as np
 import csvEdit
 import imutils
 import Submodules as sb
+import scipy.stats as stats
 
 mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
@@ -24,6 +25,11 @@ for f in onlyfiles:
 		scaleBy = 1
 	dim = (int(width * scaleBy), int(height * scaleBy))
 
+	#grey = sb.grey(img)
+
+	#hist_img = cv2.calcHist([grey],[0],None,[256],[0,256])
+	#contrast = stats.entropy(hist_img)
+
 	imgLAB = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
 	bckg = cv2.blur(imgLAB,(5,5))
 	contrast = 0
@@ -34,6 +40,9 @@ for f in onlyfiles:
 				contrast += (img[y,x,0]-bckg[y,x])/bckg[y,x]
 
 	contrast /= (height*width)
+
+
+
 	cv2.putText(img, str(contrast), (10, 60),
 		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
 	imgSml = cv2.resize(img, dim)
