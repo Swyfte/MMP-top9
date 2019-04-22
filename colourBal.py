@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 
 mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
