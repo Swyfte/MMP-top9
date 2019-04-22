@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import csvEdit
 import imutils
 import Submodules as sb
 
@@ -39,11 +38,11 @@ def colourScaleCSV(img, filename, CSVFile):
 
 	if (colourful < 80) or (colourful > 120):
 		datum = (filename,colourful,True)
-		csvEdit.csvWriteRow(CSVFile,datum)
+		sb.csvWriteRow(CSVFile,datum)
 		return True
 	else:
 		datum = (filename,colourful,False)
-		csvEdit.csvWriteRow(CSVFile,datum)
+		sb.csvWriteRow(CSVFile,datum)
 		return False
 
 def colourScaleTest(img, filename):
