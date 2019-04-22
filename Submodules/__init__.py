@@ -12,3 +12,4 @@ from Submodules.threshold import threshTest
 from Submodules.threshold import threshSave
 from Submodules.whiteCount import whiteCount
 from Submodules.whiteCount import whiteCountTest
+from Submodules.scaling import setScaling

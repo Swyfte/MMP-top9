@@ -2,15 +2,7 @@ import cv2
 import Submodules as sb
 
 def blurTest(img, filename):
-	height, width, colour = img.shape
-	if width > 1000 or height > 1000:
-		if width > height:
-			scaleBy = 1000/width
-		else:
-			scaleBy = 1000/height
-	else:
-		scaleBy = 1
-	dim = (int(width * scaleBy), int(height * scaleBy))
+	dim = sb.setScaling(img)
 	grey = sb.grey(img)
 	text = "Not blurry"
 	threshold = 100
