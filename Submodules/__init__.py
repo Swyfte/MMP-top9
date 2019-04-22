@@ -10,3 +10,7 @@ from Submodules.threshold import thresh
 from Submodules.threshold import threshSave
 from Submodules.whiteCount import whiteCount
 from Submodules.scaling import setScaling
+from Submodules.csvEdit import csvRead
+from Submodules.csvEdit import csvWrite
+from Submodules.csvEdit import csvReadRow
+from Submodules.csvEdit import csvWriteRow

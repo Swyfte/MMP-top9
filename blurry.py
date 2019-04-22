@@ -1,6 +1,5 @@
 import cv2
 import Submodules as sb
-import csvEdit
 
 ## Import the jpg files
 mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
@@ -11,7 +10,7 @@ from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
 
 csvName = "blurryTest"
-csvEdit.csvWriteRow(csvName, ["Filename","Blurry?","Blurriness Val"])
+sb.csvWriteRow(csvName, ["Filename","Blurry?","Blurriness Val"])
 
 for f in onlyfiles:
 	filename = f
@@ -32,4 +31,4 @@ for f in onlyfiles:
 	cv2.waitKey(0)"""
 
 	row = [filename, isBlurry, blurriness]
-	csvEdit.csvWriteRow(csvName, row)
+	sb.csvWriteRow(csvName, row)

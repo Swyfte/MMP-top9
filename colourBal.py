@@ -39,9 +39,7 @@ counts = [
 
 for f in onlyfiles:
 	filename = f
-	img = cv2.imread(filename) 
-	height, width, colour = img.shape
-	Size = height*width
+	img = cv2.imread(filename)
 	hsvImg = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 	i=0
 
