@@ -33,7 +33,7 @@ for f in onlyfiles:
 		isBlurry = True
 
 	"""# show the image
-	cv2.putisBlurry(img, "{}: {:.2f}".format(isBlurry, blurriness), (10, 60),
+	cv2.putText(img, "{}: {:.2f}".format(isBlurry, blurriness), (10, 60),
 		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
 	imgSml = cv2.resize(img, dim)
 	cv2.imshow(filename, imgSml)
