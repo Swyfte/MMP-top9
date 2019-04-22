@@ -24,16 +24,17 @@ for f in onlyfiles:
 		scaleBy = 1
 	dim = (int(width * scaleBy), int(height * scaleBy))
 
-	bckg = cv2.smooth(img, cv2.CV_BLUR, (5,5))
+	imgLAB = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+	bckg = cv2.blur(imgLAB,(5,5))
 	contrast = 0
 
 	for y in range(height):
 		for x in range(width):
-			if bckg[y,x] != 0:
+			if bckg[y,x].any() != 0:
 				contrast += (img[y,x,0]-bckg[y,x])/bckg[y,x]
 
 	contrast /= (height*width)
-	cv2.putText(img, "{:.2f}".format(contrast), (10, 60),
+	cv2.putText(img, str(contrast), (10, 60),
 		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
 	imgSml = cv2.resize(img, dim)
 	cv2.imshow(filename, imgSml)
