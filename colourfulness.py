@@ -9,10 +9,16 @@ from os import listdir
 from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
 
+csvHeader = ["Filename","Colourfulness"]
+csvName = "colourfulnessTest"
+
+sb.csvWriteRow(csvName,csvHeader)
+
 for f in onlyfiles:
 	filename = f
 	img = cv2.imread(filename)
-	dim = sb.setScaling(img)
+	isGood = False
+	#dim = sb.setScaling(img)
 	b,g,r = sb.split(img)
 	redgreen = np.absolute(r-g)
 	yellowblue = np.absolute(0.5*(r+g)-b)
@@ -26,10 +32,15 @@ for f in onlyfiles:
 
 	colourful = stdRoot+(0.3*meanRoot)
 	#80<x<120?
+	if (colourful > 120) or (colourful < 80):
+		isGood = True
 
-	# show the image
+	datum = [filename, colourful, isGood]
+	sb.csvWriteRow(csvName,datum)
+
+	"""# show the image
 	cv2.putText(img, "{:.2f}".format(colourful), (10, 60),
 		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
 	imgSml = cv2.resize(img, dim)
 	cv2.imshow(filename, imgSml)
-	cv2.waitKey(0)
+	cv2.waitKey(0)"""
