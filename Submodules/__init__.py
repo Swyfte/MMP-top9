@@ -9,3 +9,4 @@ from Submodules.splitColours import split
 from Submodules.threshold import thresh
 from Submodules.threshold import threshSave
 from Submodules.whiteCount import whiteCount
+from Submodules.scaling import setScaling
