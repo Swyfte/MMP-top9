@@ -18,4 +18,4 @@ for f in onlyfiles:
 	img = cv2.imread(filename)
 	grey = sb.grey(img)
 	ret,thresh = sb.thresh(grey)
-	sb.whiteCount(thresh,filename)
+	sb.whiteCountTest(thresh,filename)
