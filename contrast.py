@@ -13,8 +13,9 @@ from os.path import isfile, join
 onlyfiles = [f for f in listdir(mypath) if (isfile(join(mypath, f)) and (".jpg" in f))]
 
 images = []
-datum = ("filename", "Contrast/Brightness")
-sb.csvWriteRow(datum)
+datum = ("filename", "Contrast","Brightness","Accepted")
+csvName = "contrastTest"
+sb.csvWriteRow(csvName,datum)
 
 for f in onlyfiles:
 	filename = f
@@ -30,16 +31,17 @@ for f in onlyfiles:
 	grey = sb.grey(img)
 	ret, thresh = sb.thresh(grey)
 	wcount = sb.whiteCount(thresh)
-	
-	contbright = contrast/(100*wcount)
 
 	accepted = True
 
 	if (contrast-(10*wcount) < 0.1) or (wcount < 0.1):
 		accepted = False
+	
+	datum = (filename, contrast, (wcount*100), accepted)
+	sb.csvWriteRow(csvName,datum)
 
-	imgSml = cv2.resize(img, (400,300))
-	cv2.putText(imgSml, str(contbright), (10, 60),
+	"""imgSml = cv2.resize(img, (400,300))
+	cv2.putText(imgSml, str(contrast), (10, 60),
 		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
 	cv2.putText(imgSml, str(wcount), (10, 120),
 		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
@@ -52,4 +54,4 @@ i = 0
 for montage in montages:
 	cv2.imshow("Montage " + str(i), montage)
 	i += 1
-cv2.waitKey(0)
+cv2.waitKey(0)"""
