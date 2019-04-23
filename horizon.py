@@ -20,7 +20,7 @@ for f in onlyfiles:
 	img = cv2.imread(filename)
 	height, width, colour = img.shape
 	percent = 75
-	dim = (int(width * percent/100), int(height * percent/100))
+	dim = sb.setScaling(img)
 	#grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	#sharp = cv2.filter2D(grey, -1, kernel_sharpening)
 	blur = cv2.GaussianBlur(img,(5,5),0)
@@ -34,6 +34,7 @@ for f in onlyfiles:
 	cv2.imshow("edges",edgesSML)
 	cv2.imshow("img", imgSML)
 	##Remove code. Borrowed for testing.
+	##When plotting lines, add highest line to a storing variable?
 	for line in lines:
 		for rho,theta in line:
 			a = np.cos(theta)
@@ -45,12 +46,12 @@ for f in onlyfiles:
 			x2 = int(x0 - 1000*(-b))
 			y2 = int(y0 - 1000*(a))
 			if (x1 != x2):
-				cv2.line(edges,(x1,y1),(x2,y2),(255,255,0),2)
+				cv2.line(img,(x1,y1),(x2,y2),(255,255,0),2)
 	"""if lines is not None:
 		for i in range(0, len(lines)):
 			l = lines[i][0]
 			cv2.line(img, (l[0], l[1]), (l[2], l[3]), (0,0,255), 3, cv2.LINE_AA)"""
-	edgeshowSML = cv2.resize(edges, dim)
+	edgeshowSML = cv2.resize(img, dim)
 	cv2.imshow("Detected Lines (in red) - Standard Hough Line Transform", edgeshowSML)
 	###
 	cv2.waitKey(0)
