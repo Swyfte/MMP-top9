@@ -47,10 +47,6 @@ for f in onlyfiles:
 			y2 = int(y0 - 1000*(a))
 			if (x1 != x2):
 				cv2.line(img,(x1,y1),(x2,y2),(255,255,0),2)
-	"""if lines is not None:
-		for i in range(0, len(lines)):
-			l = lines[i][0]
-			cv2.line(img, (l[0], l[1]), (l[2], l[3]), (0,0,255), 3, cv2.LINE_AA)"""
 	edgeshowSML = cv2.resize(img, dim)
 	cv2.imshow("Detected Lines (in red) - Standard Hough Line Transform", edgeshowSML)
 	###
