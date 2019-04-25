@@ -21,10 +21,10 @@ for f in onlyfiles:
 	height, width, colour = img.shape
 	percent = 75
 	dim = sb.setScaling(img)
-	blur = cv2.GaussianBlur(img,(5,5),0)
+	blur = cv2.blur(img,(5,5),0)
 	new_img = np.zeros(img.shape, img.dtype)
 	new_img = cv2.convertScaleAbs(blur,alpha=2.0,beta=0)
-	edges = cv2.Canny(new_img,200,250, apertureSize=3)
+	edges = cv2.Canny(new_img,100,125, apertureSize=3)
 	lines = cv2.HoughLines(edges, 2, np.pi/2, 200, 100, 200)
 	edgesSML = cv2.resize(edges, dim)
 	cv2.imshow("edges",edgesSML)
