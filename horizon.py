@@ -24,14 +24,11 @@ for f in onlyfiles:
 	blur = cv2.GaussianBlur(img,(5,5),0)
 	new_img = np.zeros(img.shape, img.dtype)
 	new_img = cv2.convertScaleAbs(blur,alpha=2.0,beta=0)
-	edges = cv2.Canny(cv2.resize(cv2.split(img)[0], (width / 4, height / 4), 0, 0, cv2.INTER_NEAREST),
-            200, 600, apertureSize=3)
+	edges = cv2.Canny(new_img,200,250, apertureSize=3)
 	lines = cv2.HoughLines(edges, 2, np.pi/2, 200, 100, 200)
 	edgesSML = cv2.resize(edges, dim)
 	cv2.imshow("edges",edgesSML)
 	##Remove code. Borrowed for testing.
-	##When plotting lines, add highest line to a storing variable?
-	##Doesn't detect horizons for daytime seas....
 	for line in lines:
 		for rho,theta in line:
 			a = np.cos(theta)
