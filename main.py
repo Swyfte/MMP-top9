@@ -4,6 +4,7 @@ from tkinter import filedialog
 from os import listdir
 from os.path import isfile, join
 from imutils import build_montages
+import Modules as m
 
 filename = ""
 blurCheck = horizonCheck = symmetryCheck = False
