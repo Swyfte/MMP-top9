@@ -40,6 +40,7 @@ def runModules(img):
 		isColourful = m.colourScale(img)
 	if colourBalCheck:
 		colour = showVal.get()
+		m.coloursMain(img)
 	if symmetryCheck:
 		x=1 #Call symmetry module
 	if horizonCheck:
