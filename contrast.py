@@ -39,19 +39,3 @@ for f in onlyfiles:
 	
 	datum = (filename, contrast, (wcount*100), accepted)
 	sb.csvWriteRow(csvName,datum)
-
-	"""imgSml = cv2.resize(img, (400,300))
-	cv2.putText(imgSml, str(contrast), (10, 60),
-		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
-	cv2.putText(imgSml, str(wcount), (10, 120),
-		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
-	cv2.putText(imgSml, str(accepted), (10, 180),
-		cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
-	images.append(imgSml)
-
-montages = build_montages(images,(400,300), (4,3))
-i = 0
-for montage in montages:
-	cv2.imshow("Montage " + str(i), montage)
-	i += 1
-cv2.waitKey(0)"""
