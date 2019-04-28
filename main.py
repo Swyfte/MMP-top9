@@ -6,7 +6,9 @@ from os.path import isfile, join
 from imutils import build_montages
 
 filename = ""
-blurCheck = symmetryCheck = colourBalCheck = colourfulCheck = brightCheck = False
+blurCheck = horizonCheck = symmetryCheck = False
+colourBalCheck = colourfulCheck = brightCheck = False
+vpCheck = False
 colourBalText = ""
 colours = [
 	"Red",
@@ -29,12 +31,25 @@ def readJPGs(fileLoc):
 
 def runModules():
 	if blurCheck:
-		x=1
+		x=1 #Call blur module
+	if brightCheck:
+		x=1 #Call brightness module
+	if colourfulCheck:
+		x=1 #Call colourfulness module
+	if colourBalCheck:
+		x=1 #Call colourBalance module with the desired colour
+	if symmetryCheck:
+		x=1 #Call symmetry module
+	if horizonCheck:
+		x=1 #Call horizon module
+	if vpCheck:
+		x=1 #Call vanishing point module
+	
 
 def onClick():
 	x=1
 
-def makecbs(this):
+def makeWidgets(this):
 	cb_blur = tk.Checkbutton(this, text="Blur detection", variable=blurCheck, onvalue=True, offvalue=False)
 	cb_blur.grid(sticky="W",row=1,column=0)
 	cb_bright = tk.Checkbutton(this, text="Brightness calculation", variable=brightCheck, onvalue=True, offvalue=False)
@@ -43,7 +58,9 @@ def makecbs(this):
 	cb_colourful.grid(sticky="W",row=3,column=0)
 	cb_colourBal = tk.Checkbutton(this, text="Colour Balance", variable=colourBalCheck, onvalue=True, offvalue=False)
 	cb_colourBal.grid(sticky="W",row=4,column=0)
-	en_colourBal = tk.OptionMenu(this,"Red", *colours)
+	showVal = tk.StringVar()
+	showVal.set(colours[0])
+	en_colourBal = tk.OptionMenu(this,showVal, *colours)
 	en_colourBal.grid(sticky="W",row=4,column=1)
 	cb_symmetry = tk.Checkbutton(this, text="Symmetry Detection", variable=symmetryCheck, onvalue=True, offvalue=False)
 	cb_symmetry.grid(sticky="W",row=5,column=0)
@@ -55,7 +72,7 @@ def makecbs(this):
 
 top = tk.Tk()
 top.title("Autophotographer")
-makecbs(top)
+makeWidgets(top)
 #top.directory = tk.filedialog.askdirectory()
 #print (top.directory)
 top.mainloop()
