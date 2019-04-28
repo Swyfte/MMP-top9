@@ -47,6 +47,10 @@ def makecbs(this):
 	en_colourBal.grid(sticky="W",row=4,column=1)
 	cb_symmetry = tk.Checkbutton(this, text="Symmetry Detection", variable=symmetryCheck, onvalue=True, offvalue=False)
 	cb_symmetry.grid(sticky="W",row=5,column=0)
+	#cb_horizons = tk.Checkbutton(this, text="Horizon Detection", variable=horizonCheck, onvalue=True, offvalue=False)
+	#cb_horizons.grid(sticky="W",row=6,column=0)
+	#cb_vanishing = tk.Checkbutton(this, text="Vanishing Point Detection", variable=vpCheck, onvalue=True, offvalue=False)
+	#cb_vanishing.grid(sticky="W",row=7,column=0)
 
 
 top = tk.Tk()
