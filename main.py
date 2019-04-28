@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter import filedialog
 from os import listdir
 from os.path import isfile, join
+from imutils import build_montages
 
 filename = ""
 blurCheck = colourBalCheck = colourfulCheck = brgtCheck = False
