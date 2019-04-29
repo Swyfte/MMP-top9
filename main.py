@@ -1,7 +1,7 @@
 import cv2
 import tkinter as tk
 from tkinter import filedialog, simpledialog, messagebox
-from os import listdir, getcwd, path
+from os import listdir, getcwd, path, chdir
 from imutils import build_montages
 import Modules as m
 from operator import itemgetter
@@ -12,6 +12,7 @@ blurCheck = horizonCheck = symmetryCheck = True
 colourBalCheck = colourfulCheck = brightCheck = True
 vpCheck = csvOut = contrastCheck = True
 imageList = []
+wdir = getcwd()
 blank = "Not Checked"
 colours = [
 	"Red",
@@ -106,9 +107,10 @@ def matchColours(colour, mainColour):
 
 def openDir():
 	cwd = getcwd()
-	top.directory = tk.filedialog.askdirectory(initialdir=path.dirname(cwd),\
-		mustexist = True,title="Select Photo Album")
-	AlbumName = path.basename(top.directory)
+	wdir = tk.filedialog.askdirectory(initialdir=path.dirname(cwd),\
+		mustexist=True,title="Select Photo Album")
+	chdir(wdir)
+	AlbumName = path.basename(wdir)
 	lbl_Dir.config(text=AlbumName)
 
 def onClick():
@@ -118,7 +120,7 @@ def onClick():
 		runFilter()
 
 def runFilter():
-	onlyfiles = readJPGs(top.directory)
+	onlyfiles = readJPGs(wdir)
 	for f in onlyfiles:
 		filename = f
 		img = cv2.imread(filename)
@@ -133,9 +135,13 @@ def runFilter():
 		filename = f
 		img = cv2.imread(filename)
 		top10Imgs.append(runModules(img,filename))
-		
-	build_montages(top10Imgs,[400,300],[4,3])
-	cv2.montages
+	num = 1
+	for i in top10Imgs:
+		cv2.putText(i, "{}".format(num), (10, 60),
+			cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+		num += 1
+	montage = build_montages(top10Imgs,[400,300],[4,3])
+	cv2.imshow("Montage", montage)
 
 def runFilterWithCSV():
 	response = tk.simpledialog.askstring("Enter a name for the output file:", "Defaults to output if left blank.",
@@ -157,14 +163,32 @@ def runFilterWithCSV():
 			"Match Chosen Colour?",
 			"Symmetrical?"]
 	sb.csvWriteRow(csvName, headers)
-	onlyfiles = readJPGs(top.directory)
+
+	onlyfiles = readJPGs(wdir)
 	for f in onlyfiles:
 		filename = f
 		img = cv2.imread(filename)
 		imageList.append(runModules(img,filename))
+
 	sortedimgs = sortImgs(imageList)
 	for i in sortedimgs:
 		sb.csvWriteRow(csvName,i)
+	top10Data = sortedimgs[0:10]
+	top10Names = []
+	for i in top10Data:
+		top10Names.append(i[0])
+	top10Imgs = []
+	num = 1
+	for f in top10Names:
+		filename = f
+		img = cv2.imread(filename)
+		cv2.putText(img, str(num), (10, 60),
+			cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
+		num += 1
+		top10Imgs.append(img)
+	montage = build_montages(top10Imgs,[400,300],[4,3])
+	cv2.imshow("Montage", montage)
+	cv2.waitkey(0)
 	
 
 def sortImgs(listimgs):
