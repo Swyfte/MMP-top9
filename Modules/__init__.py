@@ -11,6 +11,7 @@ from Modules.colourfulness import colourScale
 from Modules.colourfulness import colourScaleCSV
 from Modules.colourfulness import colourScaleTest
 from Modules.contrast import getContrast
+from Modules.contrast import getContrastVal
 from Modules.contrast import getContrastCSV
 from Modules.symmetry import symm
 from Modules.symmetry import symmTest

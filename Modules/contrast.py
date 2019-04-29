@@ -38,3 +38,10 @@ def getContrast(img):
 	if (contrast-(10*wcount) < 0.1) or (wcount < 0.1):
 		accepted = False
 	return accepted
+
+def getContrastVal(img):
+	space_img = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+
+	hist_img = cv2.calcHist([space_img[0]],[0],None,[256],[0,256])
+	return stats.variation(hist_img,None)
+	
