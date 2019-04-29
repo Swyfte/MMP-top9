@@ -50,7 +50,7 @@ def runModules(img,filename):
 	if blurCheck:
 		isFocussed = m.blur(img)
 	if brightCheck:
-		brightnessPercent = m.brightness(img)
+		brightnessPercent = (m.brightness(img))*100
 	if contrastCheck:
 		contrast = m.getContrastVal(img)
 		goodContrast = m.getContrast(img)
@@ -136,7 +136,8 @@ def sortImgs(listimgs):
 		elif i[2] < 20:
 			score -= 1
 		
-		if i[3] 
+		if i[4]:
+			score += 2
 
 top = tk.Tk()
 showVal = tk.StringVar()
