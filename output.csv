@@ -1,0 +1,4 @@
+"Filename","Focused?","Brightness","Contrast","Good Contrast?","High Colour Variance?","Major Colour","Match Chosen Colour?","Symmetrical?"
+"test.jpg","True","60.002562609202094","2.6181898","False","True","BLU","False","False"
+"testAlmostSymmetrical.jpg","True","29.93814372659176","11.862883","True","True","GRY","False","False"
+"testBlueGreen.jpg","True","19.516145833333333","2.0641897","True","True","YEL","False","False"

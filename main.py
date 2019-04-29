@@ -1,6 +1,6 @@
 import cv2
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, simpledialog, messagebox
 from os import listdir, getcwd, path
 from imutils import build_montages
 import Modules as m
@@ -8,11 +8,10 @@ from operator import itemgetter
 import Submodules as sb
 
 filename = ""
-blurCheck = horizonCheck = symmetryCheck = False
-colourBalCheck = colourfulCheck = brightCheck = False
-vpCheck = csvOut = contrastCheck = False
+blurCheck = horizonCheck = symmetryCheck = True
+colourBalCheck = colourfulCheck = brightCheck = True
+vpCheck = csvOut = contrastCheck = True
 imageList = []
-onlyfiles = []
 blank = "Not Checked"
 colours = [
 	"Red",
@@ -96,12 +95,14 @@ def runModules(img,filename):
 	return datum
 	
 def matchColours(colour, mainColour):
-	for i in colours:
+	i = 0
+	while i < len(colours):
 		if colour == colours[i]:
 			if colourCodes[i] == mainColour:
 				return True
 			else:
 				return False
+		i += 1
 
 def openDir():
 	cwd = getcwd()
@@ -117,17 +118,35 @@ def onClick():
 		runFilter()
 
 def runFilter():
+	onlyfiles = readJPGs(top.directory)
 	for f in onlyfiles:
 		filename = f
 		img = cv2.imread(filename)
+		imageList.append(runModules(img,filename))
+	sortedimgs = sortImgs(imageList)
+	top10Data = sortedimgs[0:10]
+	top10Names = []
+	for i in top10Data:
+		top10Names.append(i[0])
+	top10Imgs = []
+	for f in top10Names:
+		filename = f
+		img = cv2.imread(filename)
+		top10Imgs.append(runModules(img,filename))
+		
+	build_montages(top10Imgs,[400,300],[4,3])
+	cv2.montages
 
 def runFilterWithCSV():
-	response = tk.simpledialog.askstring("Input", "Enter a name for the output file:",
+	response = tk.simpledialog.askstring("Enter a name for the output file:", "Defaults to output if left blank.",
                                 parent=top)
-	if response is not None:
+	if response is not "" and response is not None:
 		csvName = response
-	else:
+	elif response is not None:
 		csvName = "output"
+	else:
+		messagebox.showinfo("", "Cancel pressed, action aborted")
+		return
 	headers = ["Filename",
 			"Focused?",
 			"Brightness",
@@ -138,14 +157,14 @@ def runFilterWithCSV():
 			"Match Chosen Colour?",
 			"Symmetrical?"]
 	sb.csvWriteRow(csvName, headers)
-	i = 0
+	onlyfiles = readJPGs(top.directory)
 	for f in onlyfiles:
 		filename = f
 		img = cv2.imread(filename)
-		imageList[i] = runModules(img,filename)
+		imageList.append(runModules(img,filename))
 	sortedimgs = sortImgs(imageList)
 	for i in sortedimgs:
-		sb.csvWriteRow(csvName,sortedimgs[i])
+		sb.csvWriteRow(csvName,i)
 	
 
 def sortImgs(listimgs):
@@ -192,9 +211,16 @@ def sortImgs(listimgs):
 				score += 1
 			else:
 				score -= 2
-		sortingList.append((score,i)) #Create list with score
-		sorted(sortingList, key=itemgetter(0)) #Sort by score
-		return sortingList[1:] #Return everything but score
+		sortingList.append([score,i]) #Create list with score
+	sorted(sortingList, key=itemgetter(0)) #Sort by score
+	trimScoreList = []
+	finalList = []
+	for i in sortingList:
+		trimScoreList.append(i[1:])
+	for i in trimScoreList:#Remove layer of single item lists added by previous command
+		for x in i:
+			finalList.append(x)
+	return finalList #Return everything but score
 	
 
 top = tk.Tk()
