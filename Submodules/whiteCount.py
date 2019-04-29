@@ -4,7 +4,7 @@ def whiteCount(img):
 	whiteCount = 0
 	Size = img.size
 	whiteCount = cv2.countNonZero(img)
-	value = (float(whiteCount)/Size)*100
+	value = float(whiteCount)/Size
 	return value
 
 def whiteCountTest(img, filename):
