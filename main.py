@@ -12,7 +12,7 @@ blurCheck = horizonCheck = symmetryCheck = True
 colourBalCheck = colourfulCheck = brightCheck = True
 vpCheck = csvOut = contrastCheck = True
 imageList = []
-wdir = getcwd()
+wdir = ""
 blank = "Not Checked"
 colours = [
 	"Red",
@@ -85,14 +85,14 @@ def runModules(img,filename):
 		datum.append(isSymm)
 	else:
 		datum.append(blank)
-#	if horizonCheck:
-#		isHorizon = m.horizon(img)
-#	else:
-#		datum.append(blank)
-#	if vpCheck:
-#		isVP = m.vanpoint(img)
-#	else:
-#		datum.append(blank)
+	#	if horizonCheck:
+	#		isHorizon = m.horizon(img)
+	#	else:
+	#		datum.append(blank)
+	#	if vpCheck:
+	#		isVP = m.vanpoint(img)
+	#	else:
+	#		datum.append(blank)
 	return datum
 	
 def matchColours(colour, mainColour):
@@ -107,8 +107,10 @@ def matchColours(colour, mainColour):
 
 def openDir():
 	cwd = getcwd()
+	global wdir
 	wdir = tk.filedialog.askdirectory(initialdir=path.dirname(cwd),\
 		mustexist=True,title="Select Photo Album")
+	top.directory = wdir
 	chdir(wdir)
 	AlbumName = path.basename(wdir)
 	lbl_Dir.config(text=AlbumName)
@@ -169,11 +171,11 @@ def runFilterWithCSV():
 		filename = f
 		img = cv2.imread(filename)
 		imageList.append(runModules(img,filename))
-
 	sortedimgs = sortImgs(imageList)
 	for i in sortedimgs:
 		sb.csvWriteRow(csvName,i)
-	top10Data = sortedimgs[0:10]
+	
+	top10Data = sortedimgs[0:9]
 	top10Names = []
 	for i in top10Data:
 		top10Names.append(i[0])
@@ -186,8 +188,8 @@ def runFilterWithCSV():
 			cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 3)
 		num += 1
 		top10Imgs.append(img)
-	montage = build_montages(top10Imgs,[400,300],[4,3])
-	cv2.imshow("Montage", montage)
+	montages = build_montages(top10Imgs,(400,300),(5,2))
+	cv2.imshow("Montage", montages)
 	cv2.waitkey(0)
 	
 
@@ -224,9 +226,9 @@ def sortImgs(listimgs):
 			else:
 				score -= 2
 
-		if i[7] is not blank: #If matches desired colour, +1. Else -10
+		if i[7] is not blank: #If matches desired colour, +5. Else -10
 			if i[7]:
-				score += 1
+				score += 5
 			else:
 				score -= 10
 		
@@ -236,10 +238,10 @@ def sortImgs(listimgs):
 			else:
 				score -= 2
 		sortingList.append([score,i]) #Create list with score
-	sorted(sortingList, key=itemgetter(0)) #Sort by score
+	sortedList = sorted(sortingList, key=itemgetter(0)) #Sort by score
 	trimScoreList = []
 	finalList = []
-	for i in sortingList:
+	for i in sortedList:
 		trimScoreList.append(i[1:])
 	for i in trimScoreList:#Remove layer of single item lists added by previous command
 		for x in i:
