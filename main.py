@@ -189,8 +189,8 @@ def runFilterWithCSV():
 		num += 1
 		top10Imgs.append(img)
 	montages = build_montages(top10Imgs,(400,300),(5,2))
-	cv2.imshow("Montage", montages)
-	cv2.waitkey(0)
+	#cv2.imshow("Montage", montages)
+	#cv2.waitkey(0)
 	
 
 def sortImgs(listimgs):
