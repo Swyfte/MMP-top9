@@ -135,6 +135,8 @@ def sortImgs(listimgs):
 				score += 1
 		elif i[2] < 20:
 			score -= 1
+		
+		if i[3] 
 
 top = tk.Tk()
 showVal = tk.StringVar()
