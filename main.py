@@ -4,6 +4,7 @@ from tkinter import filedialog
 from os import listdir, getcwd, path
 from imutils import build_montages
 import Modules as m
+from operator import itemgetter
 import Submodules as sb
 
 filename = ""
@@ -12,6 +13,7 @@ colourBalCheck = colourfulCheck = brightCheck = False
 vpCheck = csvOut = contrastCheck = False
 imageList = []
 onlyfiles = []
+blank = "Not Checked"
 colours = [
 	"Red",
 	"Orange",
@@ -47,27 +49,50 @@ def readJPGs(fileLoc):
 	return onlyfiles
 
 def runModules(img,filename):
+	datum = [filename]
 	if blurCheck:
 		isFocussed = m.blur(img)
+		datum.append(isFocussed)
+	else:
+		datum.append(blank)
 	if brightCheck:
 		brightnessPercent = (m.brightness(img))*100
+		datum.append(brightnessPercent)
+	else:
+		datum.append(blank)
 	if contrastCheck:
 		contrast = m.getContrastVal(img)
 		goodContrast = m.getContrast(img)
+		datum.append(contrast)
+		datum.append(goodContrast)
+	else:
+		datum.append(blank)
 	if colourfulCheck:
 		isColourful = m.colourScale(img)
+		datum.append(isColourful)
+	else:
+		datum.append(blank)
 	if colourBalCheck:
 		colour = showVal.get()
 		mainColour = m.coloursMain(img)
 		isOnColour = matchColours(colour, mainColour[0])
+		datum.append(mainColour[0])
+		datum.append(isOnColour)
+	else:
+		datum.append(blank)
 	if symmetryCheck:
 		isSymm = m.symm(img)
+		datum.append(isSymm)
+	else:
+		datum.append(blank)
 #	if horizonCheck:
 #		isHorizon = m.horizon(img)
+#	else:
+#		datum.append(blank)
 #	if vpCheck:
 #		isVP = m.vanpoint(img)
-	datum = [filename,isFocussed,brightnessPercent,
-			contrast,goodContrast,isColourful,mainColour[0],isOnColour,isSymm]
+#	else:
+#		datum.append(blank)
 	return datum
 	
 def matchColours(colour, mainColour):
@@ -104,11 +129,11 @@ def runFilterWithCSV():
 	else:
 		csvName = "output"
 	headers = ["Filename",
-			"Focused",
+			"Focused?",
 			"Brightness",
 			"Contrast",
-			"Good Contrast",
-			"High Colour Variance",
+			"Good Contrast?",
+			"High Colour Variance?",
 			"Major Colour",
 			"Match Chosen Colour?",
 			"Symmetrical?"]
@@ -118,26 +143,59 @@ def runFilterWithCSV():
 		filename = f
 		img = cv2.imread(filename)
 		imageList[i] = runModules(img,filename)
+	sortedimgs = sortImgs(imageList)
+	for i in sortedimgs:
+		sb.csvWriteRow(csvName,sortedimgs[i])
 	
 
 def sortImgs(listimgs):
 	score = 0 #Used as a sorting metric. Each aspect adds a weight
+	sortingList = []
 	for i in listimgs:
-		if i[1]: #If in focus, add 1 to score, else remove 10
-			score += 1
-		else:
-			score -= 10
-		
-		if i[2] > 50.0: #If brightness > 50% +1
-			if i[2] > 80.0:
-				score -= 1
-			else:
+		if i[1] is not blank:
+			if i[1]: #If in focus, add 1 to score, else remove 10
 				score += 1
-		elif i[2] < 20:
-			score -= 1
+			else:
+				score -= 10
 		
-		if i[4]:
-			score += 2
+		if i[2] is not blank:
+			if i[2] > 50.0: #If brightness > 50%...
+				if i[2] > 80.0: #...and not above 80, +1. Else -4
+					score -= 4
+				else:
+					score += 1
+			elif i[2] < 20.0: #If brightness is < 20%, -4. Else -1
+				score -= 4
+			else:
+				score -= 1
+
+		if i[4] is not blank: #If good contrast, +2. Else -1
+			if i[4]:
+				score += 2
+			else:
+				score -= 1
+
+		if i[5] is not blank: #If good colour, +1. Else -2
+			if i[5]:
+				score += 1
+			else:
+				score -= 2
+
+		if i[7] is not blank: #If matches desired colour, +1. Else -10
+			if i[7]:
+				score += 1
+			else:
+				score -= 10
+		
+		if i[8] is not blank: #If symmetrical, +1. Else -2
+			if i[8]:
+				score += 1
+			else:
+				score -= 2
+		sortingList.append((score,i)) #Create list with score
+		sorted(sortingList, key=itemgetter(0)) #Sort by score
+		return sortingList[1:] #Return everything but score
+	
 
 top = tk.Tk()
 showVal = tk.StringVar()
