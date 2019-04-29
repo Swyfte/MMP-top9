@@ -10,6 +10,7 @@ filename = ""
 blurCheck = horizonCheck = symmetryCheck = False
 colourBalCheck = colourfulCheck = brightCheck = False
 vpCheck = csvOut = contrastCheck = False
+imageList = []
 onlyfiles = []
 colours = [
 	"Red",
@@ -45,13 +46,14 @@ def readJPGs(fileLoc):
 		 and (".jpg" in f))]
 	return onlyfiles
 
-def runModules(img):
+def runModules(img,filename):
 	if blurCheck:
-		isBlurry = m.blur(img)
+		isFocussed = m.blur(img)
 	if brightCheck:
 		brightnessPercent = m.brightness(img)
 	if contrastCheck:
-		contrast = m.getContrast(img)
+		contrast = m.getContrastVal(img)
+		goodContrast = m.getContrast(img)
 	if colourfulCheck:
 		isColourful = m.colourScale(img)
 	if colourBalCheck:
@@ -64,6 +66,9 @@ def runModules(img):
 #		isHorizon = m.horizon(img)
 #	if vpCheck:
 #		isVP = m.vanpoint(img)
+	datum = [filename,isFocussed,brightnessPercent,
+			contrast,goodContrast,isColourful,mainColour[0],isOnColour,isSymm]
+	return datum
 	
 def matchColours(colour, mainColour):
 	for i in colours:
@@ -98,11 +103,38 @@ def runFilterWithCSV():
 		csvName = response
 	else:
 		csvName = "output"
-	datum = ["Filename","Focus","Brightness","Contrast","","","","","",""]
-	sb.csvWriteRow(csvName, datum)
+	headers = ["Filename",
+			"Focused",
+			"Brightness",
+			"Contrast",
+			"Good Contrast",
+			"High Colour Variance",
+			"Major Colour",
+			"Match Chosen Colour?",
+			"Symmetrical?"]
+	sb.csvWriteRow(csvName, headers)
+	i = 0
 	for f in onlyfiles:
 		filename = f
 		img = cv2.imread(filename)
+		imageList[i] = runModules(img,filename)
+	
+
+def sortImgs(listimgs):
+	score = 0 #Used as a sorting metric. Each aspect adds a weight
+	for i in listimgs:
+		if i[1]: #If in focus, add 1 to score, else remove 10
+			score += 1
+		else:
+			score -= 10
+		
+		if i[2] > 50.0: #If brightness > 50% +1
+			if i[2] > 80.0:
+				score -= 1
+			else:
+				score += 1
+		elif i[2] < 20:
+			score -= 1
 
 top = tk.Tk()
 showVal = tk.StringVar()
@@ -145,6 +177,4 @@ btn_Run.grid(sticky="W",row=8,column=3)
 cb_output=tk.Checkbutton(top,text="Create output file",variable=csvOut,\
 	onvalue=True,offvalue=False)
 cb_output.grid(sticky="W",row=5,column=1,columnspan=3)
-
-#runModules()
 top.mainloop()
