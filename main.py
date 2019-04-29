@@ -1,15 +1,14 @@
 import cv2
 import tkinter as tk
 from tkinter import filedialog
-from os import listdir, getcwd
-from os.path import isfile, join, dirname
+from os import listdir, getcwd, path
 from imutils import build_montages
 import Modules as m
 
 filename = ""
 blurCheck = horizonCheck = symmetryCheck = False
 colourBalCheck = colourfulCheck = brightCheck = False
-vpCheck = False
+vpCheck = csvOut = False
 onlyfiles = []
 colours = [
 	"Red",
@@ -41,7 +40,7 @@ colourCodes = [
 ]
 
 def readJPGs(fileLoc):
-	onlyfiles = [f for f in listdir(fileLoc) if (isfile(join(fileLoc, f))\
+	onlyfiles = [f for f in listdir(fileLoc) if (path.isfile(path.join(fileLoc, f))\
 		 and (".jpg" in f))]
 	return onlyfiles
 
@@ -73,45 +72,61 @@ def matchColours(colour, mainColour):
 
 def openDir():
 	cwd = getcwd()
-	top.directory = tk.filedialog.askdirectory(initialdir=dirname(cwd),\
-		 mustexist = True, title="Select Photo Album")
+	top.directory = tk.filedialog.askdirectory(initialdir=path.dirname(cwd),\
+		mustexist = True,title="Select Photo Album")
+	AlbumName = path.basename(top.directory)
+	lbl_Dir.config(text=AlbumName)
 
-def makeWidgets(this):
-	cb_blur = tk.Checkbutton(this, text="Blur detection", variable=blurCheck,\
-		 onvalue=True, offvalue=False)
-	cb_blur.grid(sticky="W",row=2,column=1)
-	cb_bright = tk.Checkbutton(this, text="Brightness calculation", variable=brightCheck,\
-		 onvalue=True, offvalue=False)
-	cb_bright.grid(sticky="W",row=3,column=1)
-	cb_colourful = tk.Checkbutton(this, text="Colourfulness", variable=colourfulCheck,\
-		 onvalue=True, offvalue=False)
-	cb_colourful.grid(sticky="W",row=4,column=1)
-	cb_colourBal = tk.Checkbutton(this, text="Colour Balance", variable=colourBalCheck,\
-		 onvalue=True, offvalue=False)
-	cb_colourBal.grid(sticky="W",row=5,column=1)
-	en_colourBal = tk.OptionMenu(this,showVal, *colours)
-	en_colourBal.grid(sticky="W",row=5,column=2)
-	cb_symmetry = tk.Checkbutton(this, text="Symmetry Detection", variable=symmetryCheck,\
-		 onvalue=True, offvalue=False)
-	cb_symmetry.grid(sticky="W",row=6,column=1)
-	#cb_horizons = tk.Checkbutton(this, text="Horizon Detection", variable=horizonCheck,\
-	#  onvalue=True, offvalue=False)
-	#cb_horizons.grid(sticky="W",row=7,column=1)
-	#cb_vanishing = tk.Checkbutton(this, text="Vanishing Point Detection", variable=vpCheck,\
-	#  onvalue=True, offvalue=False)
-	#cb_vanishing.grid(sticky="W",row=8,column=1)
-	lbl_Dir = tk.Label(this, text="No album selected")
-	lbl_Dir.grid(sticky="W",row=9,column=1)
-	btn_Dir = tk.Button(this, text="Select album", command=openDir)
-	btn_Dir.grid(sticky="W",row=9,column=2)
+def onClick():
+	if csvOut:
+		runFilterWithCSV()
+	else:
+		runFilter()
 
+def runFilter():
+	x=1
 
+def runFilterWithCSV():
+	x=1
 
 top = tk.Tk()
 showVal = tk.StringVar()
 showVal.set(colours[0])
 top.title("Autophotographer")
-makeWidgets(top)
+cb_blur=tk.Checkbutton(top,text="Blur detection",variable=blurCheck,\
+	onvalue=True,offvalue=False)
+cb_blur.grid(sticky="W",row=0,column=0)
+cb_bright=tk.Checkbutton(top,text="Brightness calculation",variable=brightCheck,\
+	onvalue=True,offvalue=False)
+cb_bright.grid(sticky="W",row=1,column=0)
+cb_colourful=tk.Checkbutton(top,text="Colour Variance",variable=colourfulCheck,\
+	onvalue=True,offvalue=False)
+cb_colourful.grid(sticky="W",row=2,column=0)
+cb_colourBal=tk.Checkbutton(top,text="Major Colour:",variable=colourBalCheck,\
+	onvalue=True,offvalue=False)
+cb_colourBal.grid(sticky="W",row=3,column=0)
+en_colourBal=tk.OptionMenu(top,showVal,*colours)
+en_colourBal.grid(sticky="W",row=3,column=1)
+cb_symmetry=tk.Checkbutton(top,text="Symmetry Detection",variable=symmetryCheck,\
+	onvalue=True,offvalue=False)
+cb_symmetry.grid(sticky="W",row=4,column=0)
+#cb_horizons=tk.Checkbutton(top,text="Horizon Detection",variable=horizonCheck,\
+#	onvalue=True,offvalue=False)
+#cb_horizons.grid(sticky="W",row=5,column=0)
+#cb_vanishing=tk.Checkbutton(top,text="Vanishing Point Detection",variable=vpCheck,\
+#	onvalue=True,offvalue=False)
+#cb_vanishing.grid(sticky="W",row=6,column=0)
+lbl_Dir=tk.Label(top,text="No album selected")
+lbl_Dir.grid(sticky="W",row=7,column=0)
+btn_Dir=tk.Button(top,text="Select album",command=openDir)
+btn_Dir.grid(sticky="W",row=7,column=1)
+lblPadding=tk.Label(top)
+lblPadding.grid(row=0,column=2)
+btn_Run=tk.Button(top,text="Run Filter",command=onClick)
+btn_Run.grid(sticky="W",row=7,column=3)
+cb_output=tk.Checkbutton(top,text="Create output file",variable=csvOut,\
+	onvalue=True,offvalue=False)
+cb_output.grid(sticky="W",row=4,column=1,columnspan=3)
 #print (top.directory)
 
 #runModules()
