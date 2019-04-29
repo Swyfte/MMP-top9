@@ -194,9 +194,9 @@ def runFilterWithCSV():
 	
 
 def sortImgs(listimgs):
-	score = 0 #Used as a sorting metric. Each aspect adds a weight
 	sortingList = []
 	for i in listimgs:
+		score = 0
 		if i[1] is not blank:
 			if i[1]: #If in focus, add 1 to score, else remove 10
 				score += 1
@@ -238,6 +238,7 @@ def sortImgs(listimgs):
 			else:
 				score -= 2
 		sortingList.append([score,i]) #Create list with score
+	print(sortingList)
 	sortedList = sorted(sortingList, key=itemgetter(0)) #Sort by score
 	trimScoreList = []
 	finalList = []
