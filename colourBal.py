@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import Submodules as sb
 
 mypath = "D:\Arianwen\Documents\GitHub\MMP-top9"
 filename = ""
@@ -40,6 +41,7 @@ counts = [
 for f in onlyfiles:
 	filename = f
 	img = cv2.imread(filename)
+	dim = sb.setScaling(img)
 	hsvImg = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 	i=0
 
@@ -50,12 +52,18 @@ for f in onlyfiles:
 		mask = cv2.inRange(hsvImg, lower, upper)
 		masked = cv2.bitwise_and(hsvImg, hsvImg, mask = mask)
 		greyMask = cv2.cvtColor(masked, cv2.COLOR_BGR2GRAY)
+		imgSml = cv2.resize(img, dim)
+		mskSml = cv2.resize(masked, dim)
 
 		if i < len(counts):
 			counts[i][1] = cv2.countNonZero(greyMask)
+			cv2.imshow(str(counts[i][0]), np.hstack([imgSml, mskSml]))
+			cv2.waitKey(0)
 			i += 1
 		elif i == len(counts):
 			counts[0][1] += cv2.countNonZero(greyMask)
+			cv2.imshow(str(counts[0][0]), np.hstack([imgSml, mskSml]))
+			cv2.waitKey(0)
 	
 	Max = ["", 0]
 	for i in counts:
@@ -63,4 +71,4 @@ for f in onlyfiles:
 			Max = i
 	print("\n" + filename)
 	print(counts)
-	print(Max)
+	print("Max = " + str(Max))
