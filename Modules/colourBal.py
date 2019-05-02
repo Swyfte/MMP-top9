@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 
 channels = [
 	([  0, 46,126], [ 13,255,255]), #Red 1
